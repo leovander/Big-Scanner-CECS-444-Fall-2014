@@ -45,8 +45,8 @@ public class BigScanner {
 			reader.close(); 
 			bufferedReader.close();
 		} catch (IOException e) {
-			System.out.print("IO Exception caught. \nFile does not exist.");
-			System.exit(1);
+			//System.out.print("IO Exception caught. \nFile does not exist.");
+			//System.exit(1);
 		}
 	        
         int i = 0;
@@ -101,62 +101,65 @@ public class BigScanner {
 				case '&':
 					current_read = 11;
 					break;
-				case '!':
+				case '#':
 					current_read = 12;
 					break;
-				case '~':
+				case '!':
 					current_read = 13;
 					break;
-				case '\'':
+				case '~':
 					current_read = 14;
 					break;
-				case '"':
+				case '\'':
 					current_read = 15;
 					break;
-				case '$':
+				case '"':
 					current_read = 16;
 					break;
-				case ':':
+				case '$':
 					current_read = 17;
 					break;
-				case ';':
+				case ':':
 					current_read = 18;
 					break;
-				case '.':
+				case ';':
 					current_read = 19;
 					break;
-				case ',':
+				case '.':
 					current_read = 20;
 					break;
-				case '+':
+				case ',':
 					current_read = 21;
 					break;
-				case '-':
+				case '+':
 					current_read = 22;
 					break;
-				case '/':
+				case '-':
 					current_read = 23;
 					break;
-				case '*':
+				case '/':
 					current_read = 24;
 					break;
-				case '=':
+				case '*':
 					current_read = 25;
 					break;
-				case '^':
+				case '=':
 					current_read = 26;
 					break;
-				case '(':
+				case '^':
 					current_read = 27;
 					break;
-				case ')':
+				case '(':
 					current_read = 28;
 					break;
-				case '\\':
+				case ')':
 					current_read = 29;
 					break;
-				case '\n':
+				case '\\':
 					current_read = 30;
+					break;
+				case '\n':
+					current_read = 31;
 					break;
 				default:
 					current_read = 32;
@@ -164,92 +167,93 @@ public class BigScanner {
 				}
 			}
 			
-			//System.out.println("current state=" + state + " current_char=" + current_char + " token status=" + token_under_construction);
+			System.out.println("current state=" + state + " current_char=" + current_char + " token status=" + token_under_construction);
 			
 			if ((next_state(state, current_read) != -1) && (action(state, current_read) == 1)) {
 				buffered = false;
 				token_under_construction = token_under_construction + current_char;
 				state = next_state(state, current_read);
 			} else if ((next_state(state, current_read) == -1) && (action(state, current_read) == 2)) {
-				//System.out.println("inside switch with state = " + state + " and char " + current_read + "\n");
-				//System.out.println("The lookup value is = " + look_up(state, current_read) + "\n");
-				//System.out.println("We have a buffered character = " + "\"" + current_char + "\"" + "\n");
+				System.out.println("inside switch with state = " + state + " and char " + current_read + "\n");
+				System.out.println("The lookup value is = " + look_up(state, current_read) + "\n");
+				System.out.println("We have a buffered character = " + "\"" + current_char + "\"" + "\n");
 				
 				buffered = true;
 
 				switch (look_up(state, current_read)) {
 					case 1:
-						//System.out.println("TOKEN DISCOVERED IS IDENTIFIER \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS IDENTIFIER \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 2:
-						//System.out.println("TOKEN DISCOVERED IS INTEGER \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS INTEGER \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 3:
-						//System.out.println("TOKEN DISCOVERED IS SIMPLE OP \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS SIMPLE OP \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 4:
-						//System.out.println("TOKEN DISCOVERED IS REAL \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS REAL \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 5:
-						//System.out.println("TOKEN DISCOVERED IS COMPOUND OP \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS COMPOUND OP \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 6:
-						//System.out.println("TOKEN DISCOVERED IS STRING \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS STRING \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 7:
-						//System.out.println("TOKEN DISCOVERED IS SINGLE COMMENT \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS SINGLE COMMENT \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 8:
-						//System.out.println("TOKEN DISCOVERED IS SIGNED INT OR SIGNED INT COMMA \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS SIGNED INT OR SIGNED INT COMMA \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 9:
-						//System.out.println("TOKEN DISCOVERED IS BLOCK COMMENT \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS BLOCK COMMENT \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 10:
-						//System.out.println("TOKEN DISCOVERED IS CURRENCY \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS CURRENCY \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 11:
-						//System.out.println("TOKEN DISCOVERED IS SIGNED REAL \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS SIGNED REAL \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 12:
-						//System.out.println("TOKEN DISCOVERED IS INT COMMA \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS INT COMMA \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 13:
-						//System.out.println("TOKEN DISCOVERED IS DEVICE \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS DEVICE \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 14:
-						//System.out.println("TOKEN DISCOVERED IS SCIENTIFIC \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS SCIENTIFIC \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 15:
-						//System.out.println("TOKEN DISCOVERED IS REAL COMMA \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS REAL COMMA \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 16:
-						//System.out.println("TOKEN DISCOVERED IS LIBRARY ANGLE \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS LIBRARY ANGLE \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 17:
-						//System.out.println("TOKEN DISCOVERED IS LIBRARY QUOTE \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS LIBRARY QUOTE \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 18:
-						//System.out.println("TOKEN DISCOVERED IS SIGNED REAL OR SIGNED COMMA \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS SIGNED REAL OR SIGNED COMMA \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					case 19:
-						//System.out.println("TOKEN DISCOVERED IS LIBRARY \t=> " + token_under_construction.toUpperCase() + "\n");
+						System.out.println("TOKEN DISCOVERED IS LIBRARY \t=> " + token_under_construction.toUpperCase() + "\n");
 						break;
 					default:
-						//System.out.println("error\n");
+						System.out.println("error\n");
 						break;
 				}
 				
 				state = 0;
 				token_under_construction = "";
 			} else if(action(state, current_read) == 0) {
-				//System.out.println("ERROR WITH CHARACTER: " + Character.toUpperCase(current_char) + "\n");
+				System.out.println("ERROR WITH CHARACTER: " + Character.toUpperCase(current_char) + "\n");
 				token_under_construction = "";
 				buffered = false;
+				//state = 0;
 			}
 		}
 		
-		//System.out.println("DONE SCANNING");
+		System.out.println("DONE SCANNING");
 	}
 	
 	int look_up(int new_state, int new_char) {
