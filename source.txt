@@ -20,11 +20,11 @@ begin /*body*/
 	c:=12345;
 	d:=12,345,123;
 	e:=(-12,345,123);
-	bread=$12,123.05;
+	bread:=$12,123.05;
 	cd:=c+d; //add unsigned integers
 	e:=444,444.13;
 	f:=(-444,444.13);
-	gee:=c+e+3.145^^002; //add singed integers and reals
+	gee:=c+e+3.145^+002; //add singed integers and reals
 	read[A:file.txt];
 	write[A:test];
 	for (a:=1; a<=10;++a)

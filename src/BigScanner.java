@@ -39,7 +39,8 @@ public class BigScanner {
 	        	list.add((char) c);
 	        }
 	        
-	        list.add(' ');
+	        list.add('\n');
+	        list.add('\n');
 	        
 	        inStream.close();
 			reader.close(); 
@@ -167,16 +168,16 @@ public class BigScanner {
 				}
 			}
 			
-			System.out.println("current state=" + state + " current_char=" + current_char + " token status=" + token_under_construction);
+			//System.out.println("current state=" + state + " current_char=" + current_char + " token status=" + token_under_construction);
 			
 			if ((next_state(state, current_read) != -1) && (action(state, current_read) == 1)) {
 				buffered = false;
 				token_under_construction = token_under_construction + current_char;
 				state = next_state(state, current_read);
 			} else if ((next_state(state, current_read) == -1) && (action(state, current_read) == 2)) {
-				System.out.println("inside switch with state = " + state + " and char " + current_read + "\n");
-				System.out.println("The lookup value is = " + look_up(state, current_read) + "\n");
-				System.out.println("We have a buffered character = " + "\"" + current_char + "\"" + "\n");
+				//System.out.println("inside switch with state = " + state + " and char " + current_read + "\n");
+				//System.out.println("The lookup value is = " + look_up(state, current_read) + "\n");
+				//System.out.println("We have a buffered character = " + "\"" + current_char + "\"" + "\n");
 				
 				buffered = true;
 
@@ -246,10 +247,10 @@ public class BigScanner {
 				state = 0;
 				token_under_construction = "";
 			} else if(action(state, current_read) == 0) {
-				System.out.println("ERROR WITH CHARACTER: " + Character.toUpperCase(current_char) + "\n");
+				//System.out.println("ERROR WITH CHARACTER: " + Character.toUpperCase(current_char) + "\n");
 				token_under_construction = "";
 				buffered = false;
-				//state = 0;
+				state = 0;
 			}
 		}
 		
