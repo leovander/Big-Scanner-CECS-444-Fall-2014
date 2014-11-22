@@ -1,4 +1,5 @@
 import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
@@ -38,7 +39,7 @@ public class ScannerWindow {
 		frmBigScanner.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("Main", null, panel, "Enter source file to scan");
+		tabbedPane.addTab("Scanner", null, panel, "Enter source file to scan");
 		panel.setLayout(null);
 		
 		txtSourcetxt = new JTextField();
@@ -49,7 +50,7 @@ public class ScannerWindow {
 		
 		TextArea textArea_4 = new TextArea();
 		textArea_4.setEditable(false);
-		textArea_4.setBounds(10, 58, 464, 464);
+		textArea_4.setBounds(10, 58, 464, 217);
 		textArea_4.setFont(new Font("Courier New", Font.PLAIN, 12));
 		panel.add(textArea_4);
 		
@@ -68,6 +69,8 @@ public class ScannerWindow {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					scanner.read_characters(txtSourcetxt.getText(), textArea_4, textArea_5);
+					textArea_4.setCaretPosition(0);
+					textArea_5.setCaretPosition(0);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -79,6 +82,7 @@ public class ScannerWindow {
 		JLabel lblScannerOutput = new JLabel("Scanner Output");
 		lblScannerOutput.setBounds(484, 36, 97, 16);
 		panel.add(lblScannerOutput);
+		
 		tabbedPane.setEnabledAt(0, true);
 		
 		JPanel panel_1 = new JPanel();
@@ -99,8 +103,8 @@ public class ScannerWindow {
 		panel_1.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Search reserved");
-		lblNewLabel_1.setBounds(6, 12, 98, 16);
+		JLabel lblNewLabel_1 = new JLabel("Search reserved:");
+		lblNewLabel_1.setBounds(6, 12, 102, 16);
 		panel_1.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
