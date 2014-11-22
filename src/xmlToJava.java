@@ -1,5 +1,3 @@
-//package org.apache.poi.hssf.usermodel.examples;
-
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -7,7 +5,6 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -329,7 +326,6 @@ public class xmlToJava {
         		overallPos++;
         	}
     		
-            // Write the output to a file
             fileOut = new FileOutputStream("allTables.xls");
             wb.write(fileOut);
         } finally {
