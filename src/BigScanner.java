@@ -1,21 +1,24 @@
-import java.awt.Font;
-import java.awt.TextArea;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.awt.Font;
+import java.util.Map;
+import java.awt.TextArea;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.TreeMap;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 public class BigScanner {
 	int current_read = 0; 
 	int state = 0;
 	String token_under_construction = "";
-	Map<String, Integer> symbolTable;
+	Map<String, Integer> symbolTable = new HashMap<String, Integer>();
+	Map<String, Integer> sortedSymbolTable;
 	ArrayList<String> reservedWords = new ArrayList<String>();
 	
 	final int [][] state_table = new int[145][33];
@@ -35,6 +38,7 @@ public class BigScanner {
 		InputStreamReader reader = null;
 	    BufferedReader bufferedReader = null;
 	    ArrayList<Character> list = new ArrayList<Character>();
+	    symbolTable.clear();
 	    String src = "";
 	    
 		try {
@@ -48,6 +52,7 @@ public class BigScanner {
 	        }
 	        
 	        source.append(src);
+	        source.setCaretPosition(0);
 	        list.add('\n');
 	        list.add('\n');
 	        
@@ -127,20 +132,24 @@ public class BigScanner {
 				//System.out.println("We have a buffered character = " + "\"" + current_char + "\"");
 				
 				buffered = true;
-				String token = "=> ";
+				String token = "";
 				switch (look_up(state, current_read)) {
 					case 1:
 						if(reservedWords.contains(token_under_construction.toLowerCase())) {
 							token = "=> identifier and reserved word";
+						} else if(symbolTable.containsKey(token_under_construction)) {
+							symbolTable.put(token_under_construction, symbolTable.get(token_under_construction) + 1);
+							token = "=> identifier EXISTS in table (" + symbolTable.get(token_under_construction) + ")";
 						} else {
-							token = "=> identifier";
+							symbolTable.put(token_under_construction, 1);
+							token = "=> identifier placed into table";
 						}
 						break;
-					case 2: token = "=> integer"; break;
-					case 3: token = "=> simple op"; break;
-					case 4: token = "=> real"; break;
-					case 5: token = "=> compund op"; break;
-					case 6: token = "=> string"; break;
+					case 2: token = "=> valid integer"; break;
+					case 3: token = "=> simple op " + token_under_construction; break;
+					case 4: token = "=> valid real"; break;
+					case 5: token = "=> compund op " + token_under_construction; break;
+					case 6: token = "=> string literal"; break;
 					case 7: token = "=> single comment"; break;
 					case 8: token = "=> signed int or signed int comma"; break;
 					case 9: token = "=> block comment"; break;
@@ -148,7 +157,7 @@ public class BigScanner {
 					case 11: token = "=> signed real"; break;
 					case 12: token = "=> int comma"; break;
 					case 13: token = "=> device"; break;
-					case 14: token = "=> scientific"; break;
+					case 14: token = "=> valid scientific"; break;
 					case 15: token = "=> real comma"; break;
 					case 16: token = "=> library angle"; break;
 					case 17: token = "=> library quote"; break;
@@ -168,6 +177,9 @@ public class BigScanner {
 				state = 0;
 			}
 		}
+		sortedSymbolTable = new TreeMap<String, Integer>(symbolTable);
+		
+		output.setCaretPosition(0);
 		//System.out.println("DONE SCANNING");
 	}
 	

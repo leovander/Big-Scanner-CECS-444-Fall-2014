@@ -1,17 +1,24 @@
-import java.io.IOException;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
+import java.util.Map;
+import java.util.Set;
 import java.awt.Font;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.TextArea;
-import javax.swing.JTextField;
+import java.util.Iterator;
+import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import java.io.IOException;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.util.Map.Entry;
+import java.awt.BorderLayout;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
 
 public class ScannerWindow {
 	private JFrame frmBigScanner;
@@ -64,13 +71,36 @@ public class ScannerWindow {
 		textArea_5.setFont(new Font("Courier New", Font.PLAIN, 12));
 		panel.add(textArea_5);
 		
+		DefaultTableModel model = new DefaultTableModel(); 
+        JTable table = new JTable(model);
+        model.addColumn("Number of Occurences");
+        model.addColumn("Symbol");
+        table.getTableHeader().setReorderingAllowed(false);
+        table.getTableHeader().setResizingAllowed(false);
+		table.setPreferredScrollableViewportSize(new Dimension(464, 217));
+		table.setEnabled(false);
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(8, 305, 464, 217);
+		panel.add(scrollPane);
+		
 		JButton btnNewButton = new JButton("Run Scanner");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					textArea_4.setText("");
+					textArea_5.setText("");
 					scanner.read_characters(txtSourcetxt.getText(), textArea_4, textArea_5);
-					textArea_4.setCaretPosition(0);
-					textArea_5.setCaretPosition(0);
+					
+					model.setRowCount(0);
+					Set<Entry<String, Integer>> set2 = scanner.sortedSymbolTable.entrySet();
+			        Iterator<Entry<String, Integer>> iterator2 = set2.iterator();
+			        while(iterator2.hasNext()) {
+			             Map.Entry me2 = (Map.Entry)iterator2.next();
+			             System.out.print(me2.getKey() + ": ");
+			             System.out.println(me2.getValue());
+			             model.addRow(new Object[]{me2.getKey(), me2.getValue()});
+			        }
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
