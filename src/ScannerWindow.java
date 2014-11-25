@@ -34,7 +34,10 @@ public class ScannerWindow {
 	private JFrame frmBigScanner;
 	private JTextField txtSourcetxt;
 	private JTextField textField;
-
+	
+	//Main function that  creates a new BigScanner object that automatically
+	//calls xmlToJava to create and fill the remaining tables as well
+	//as a new Scanner Window
 	public static void main(String[] args) throws IOException {
 		BigScanner scanner = new BigScanner();
 		ScannerWindow window = new ScannerWindow(scanner);
@@ -42,12 +45,15 @@ public class ScannerWindow {
 	}
 
 	public ScannerWindow(BigScanner scanner) throws IOException {
+		//Create an overall container for the applications
 		frmBigScanner = new JFrame();
 		frmBigScanner.setTitle("Big Scanner");
 		frmBigScanner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmBigScanner.setResizable(false);
 		frmBigScanner.setBounds(0, 0, 1100, 600);
 		
+		//Create tabs to separate the outputs of the main Scanner,
+		//Reserved Words, and the State, Action, and Lookup tables
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frmBigScanner.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
@@ -55,12 +61,14 @@ public class ScannerWindow {
 		tabbedPane.addTab("Scanner", null, panel, "Enter source file to scan");
 		panel.setLayout(null);
 		
+		//Text field to specify which file we will scan
 		txtSourcetxt = new JTextField();
 		txtSourcetxt.setText("source.txt");
 		txtSourcetxt.setBounds(8, 6, 134, 28);
 		panel.add(txtSourcetxt);
 		txtSourcetxt.setColumns(10);
 		
+		//Text Area which will hold the original file
 		TextArea textArea_4 = new TextArea();
 		textArea_4.setEditable(false);
 		textArea_4.setBounds(10, 58, 464, 217);
@@ -71,12 +79,14 @@ public class ScannerWindow {
 		lblNewLabel.setBounds(10, 36, 76, 16);
 		panel.add(lblNewLabel);
 		
+		//Output of the Scanner
 		TextArea textArea_5 = new TextArea();
 		textArea_5.setEditable(false);
 		textArea_5.setBounds(484, 58, 585, 464);
 		textArea_5.setFont(new Font("Courier New", Font.PLAIN, 12));
 		panel.add(textArea_5);
 		
+		//A table to hold the symbol table created by the scanner
 		DefaultTableModel model = new DefaultTableModel(); 
         JTable table = new JTable(model);
         model.addColumn("Number of Occurences");
@@ -90,6 +100,8 @@ public class ScannerWindow {
 		scrollPane.setBounds(8, 305, 464, 217);
 		panel.add(scrollPane);
 		
+		//Button that starts the read_characters function from the BigScanner
+		//Fills the gui table after the scanner has finished running
 		JButton btnNewButton = new JButton("Run Scanner");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -128,6 +140,7 @@ public class ScannerWindow {
 		tabbedPane.setEnabledAt(1, true);
 		panel_1.setLayout(null);
 		
+		//Holds the reservedWords in a Text Area after being read in from a file
 		TextArea textArea = new TextArea();
 		textArea.setBounds(10, 42, 1059, 480);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 12));
@@ -136,6 +149,7 @@ public class ScannerWindow {
 		
 		scanner.setReserved("reservedWord.txt", textArea);
 		
+		//Allows the user to search through the reservedWords
 		textField = new JTextField();
 		textField.setBounds(116, 6, 134, 28);
 		panel_1.add(textField);
@@ -149,6 +163,7 @@ public class ScannerWindow {
 		lblNewLabel_2.setBounds(391, 12, 261, 16);
 		panel_1.add(lblNewLabel_2);
 		
+		//A button that searches through the reservedWord given a value
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -162,6 +177,8 @@ public class ScannerWindow {
 		btnSearch.setBounds(262, 5, 117, 29);
 		panel_1.add(btnSearch);
 		
+		//Remaining code creates panes for which the STATE, ACTION, and LOOKUP
+		//tables will reside in Text Areas in their respective sub-tabs
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("Tables", null, panel_2, "Display of State, Action, and Lookup Tables");
 		panel_2.setLayout(new BorderLayout(0, 0));
