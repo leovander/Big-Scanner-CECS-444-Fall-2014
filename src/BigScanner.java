@@ -1,3 +1,13 @@
+/* Israel Torres
+ * 006997443
+ * CECS 444
+ * Tues/Thurs 11:00am
+ * Professor Konig
+ * November 24, 2014
+ * Scanner Project
+ * 
+ * I alone wrote and modified what is turned in here.
+ */
 import java.io.File;
 import java.awt.Font;
 import java.util.Map;

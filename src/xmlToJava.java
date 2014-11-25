@@ -1,3 +1,13 @@
+/* Israel Torres
+ * 006997443
+ * CECS 444
+ * Tues/Thurs 11:00am
+ * Professor Konig
+ * November 24, 2014
+ * Scanner Project
+ * 
+ * I alone wrote and modified what is turned in here.
+ */
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,19 +20,20 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class xmlToJava {
+	//Function that creates the ACTION and LOOKUP TABLES and accepts the final
+	//tables needed for the scanner, and fills them up with appropriate values
+	//Uses Apache POI to read and write to XML files: http://poi.apache.org/ 
     static void createTables(int[][] state_table, int [][] action_table, int [][] lookup_table) throws IOException	{
     	FileInputStream fileIn = null;
         FileOutputStream fileOut = null;
 
         try
         {
-            //Read in file
+        	//Reads in an EXCEL file that only contains a STATE TABLE and creates
+        	//new table pages for the final EXCEL workbook
         	fileIn = new FileInputStream("stateTable.xls");
-            //Create a new I/O for excel
         	POIFSFileSystem fs = new POIFSFileSystem(fileIn);
-            //New notebook to read from
         	HSSFWorkbook wb = new HSSFWorkbook(fs);
-            //Grab the first sheet
         	HSSFSheet stateSheet = wb.getSheetAt(0);
         	HSSFSheet stateCodeSheet = wb.createSheet("State Code");
         	HSSFSheet actionSheet = wb.createSheet("Action");
@@ -30,23 +41,26 @@ public class xmlToJava {
         	HSSFSheet lookupSheet = wb.createSheet("Lookup");
         	HSSFSheet lookupCodeSheet = wb.createSheet("Lookup Code");
         	
-        	int overallPos = 0;
+        	//Creating temporary rows and cells for copying and editing data
+        	//into new sheets from original STATE sheet
         	HSSFRow stateCodeRow, actionRow, actionCodeRow, lookupRow, lookupCodeRow;
     		HSSFCell stateCodeCell, actionCell, actionCodeCell, lookupCell, lookupCodeCell;
     		Cell rowHeader;
     		
-    		//Go through each row of the State Sheet
+    		int overallPos = 0;
     		int statePos = 0;
+    		//Iterates over every row round in the STATE sheet
     		for (Row row : stateSheet) {
+    			//Setting the header for each row, i.e. what state it is
+    			//and if it accepts anything
         		rowHeader = row.getCell(0);
-        		
-        		//Copies the first column and pastes it into the new sheet
         		stateCodeRow = stateCodeSheet.createRow(overallPos);
         		actionRow = actionSheet.createRow(overallPos);
         		actionCodeRow = actionCodeSheet.createRow(overallPos);
         		lookupRow = lookupSheet.createRow(overallPos);
         		lookupCodeRow = lookupCodeSheet.createRow(overallPos);
         		
+        		//Setting all the header column types to STRING
         		stateCodeCell = stateCodeRow.createCell(0);
         		stateCodeCell.setCellType(HSSFCell.CELL_TYPE_STRING);
         		stateCodeCell.setCellValue(rowHeader.toString());
@@ -67,15 +81,19 @@ public class xmlToJava {
         		lookupCodeCell.setCellType(HSSFCell.CELL_TYPE_STRING);
         		lookupCodeCell.setCellValue(rowHeader.toString());
         		
-        		//Only checks for the first header row
+        		//This case is only for the main header row in the STATE sheet,
+        		//containing the scanner alphabet
         		if(rowHeader.toString().compareTo("") != 0) {
-        			//ACCEPT STATE
+        			//If the row header contains an accept state, enter this
+        			//condition
         			if(rowHeader.toString().contains("accept")) {
 	        			int cellPos = 1;
 	        			int alphabetPos = 0;
+	        			//Retrieve what the state accepts
 	        			String[] acceptType = rowHeader.toString().split(" ");
 	        			for(Cell cell : row) {
 	        				if(cell.getColumnIndex() != 0) {
+	        					//Setting each cell to STRING
 	        					stateCodeCell = stateCodeRow.createCell(cellPos);
 		                		stateCodeCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 	        					
@@ -91,6 +109,10 @@ public class xmlToJava {
 		                		lookupCodeCell = lookupCodeRow.createCell(cellPos);
 		                		lookupCodeCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 		                		
+		                		//If the state can go anywhere on a particular
+		                		//character we set the STATE CODE table to itself
+		                		//ACTION table to MA and ACTION CODE to 1 and
+		                		//LOOKUP table to N/A and LOOKUP CODE to 0
 		                		if(cell.toString().compareTo("*") != 0) {
 		                			stateCodeCell.setCellValue(cell.toString());
 		                			state_table[statePos][alphabetPos] = (int) Double.parseDouble(cell.toString());
@@ -102,7 +124,12 @@ public class xmlToJava {
 			        				lookupCell.setCellValue("N/A");
 			        				lookupCodeCell.setCellValue("0");
 			        				lookup_table[statePos][alphabetPos] = 0;
-			        			} else {
+		        				//else the state can't go anywhere on a particular
+		                		//character we set the STATE CODE table to -1
+		                		//ACTION table to HR and ACTION CODE to 2 and
+		                		//LOOKUP table to its given type and LOOKUP CODE
+			        			//to its according lookup value 
+		                		} else {
 			        				stateCodeCell.setCellValue("-1");
 			        				state_table[statePos][alphabetPos] = -1;
 			        				
@@ -181,11 +208,12 @@ public class xmlToJava {
 	        				}
 		        		}
 	        		} else {
-	        			//NON-ACCEPT STATE
+	        			//If we reach here we are at a non-accept state
 	        			int cellPos = 1;
 	        			int alphabetPos = 0;
 	        			for(Cell cell : row) {
 	        				if(cell.getColumnIndex() != 0) {
+	        					//We set each column header here with type string
 	        					stateCodeCell = stateCodeRow.createCell(cellPos);
 		                		stateCodeCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 	        					
@@ -201,6 +229,10 @@ public class xmlToJava {
 		                		lookupCodeCell = lookupCodeRow.createCell(cellPos);
 		                		lookupCodeCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 		                		
+		                		//If the state can go anywhere on a particular
+		                		//character we set the STATE CODE table to itself
+		                		//ACTION table to MA and ACTION CODE to 1 and
+		                		//LOOKUP table to N/A and LOOKUP CODE to 0
 		                		if(cell.toString().compareTo("*") != 0) {
 		                			stateCodeCell.setCellValue(cell.toString());
 		                			state_table[statePos][alphabetPos] = (int) Double.parseDouble(cell.toString());
@@ -212,7 +244,11 @@ public class xmlToJava {
 		        					lookupCell.setCellValue("N/A");
 		        					lookupCodeCell.setCellValue("0");
 		        					lookup_table[statePos][alphabetPos] = 0;
-			        			} else {
+	        					//else the state can't go anywhere on a particular
+		                		//character we set the STATE CODE table to -1
+		                		//ACTION table to ER and ACTION CODE to 0 and
+		                		//LOOKUP table to N/A and LOOKUP CODE to 0 
+		                		} else {
 			        				stateCodeCell.setCellValue("-1");
 			        				state_table[statePos][alphabetPos] = -1;
 			        				
@@ -232,7 +268,8 @@ public class xmlToJava {
         			
         			statePos++;
         		} else {
-        			//Logic for main top header
+        			//This condition only exists to copy and create the original
+        			//alphabet header
         			HSSFRow sCRow = stateCodeSheet.createRow(0);
         			HSSFRow aRow = actionSheet.createRow(0);        			
         			HSSFRow aCRow = actionCodeSheet.createRow(0);
@@ -266,7 +303,7 @@ public class xmlToJava {
         		}
         		overallPos++;
         	}
-    		
+    		//Write the new tables to the excel sheet
             fileOut = new FileOutputStream("allTables.xls");
             wb.write(fileOut);
         } finally {
