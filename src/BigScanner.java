@@ -24,21 +24,29 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 public class BigScanner {
+	//Setting our current read, the state, and current token under construction
 	int current_read = 0; 
 	int state = 0;
 	String token_under_construction = "";
+	//Create the symbol table to store user created identifiers and a list
+	//of reserved words to match against
 	Map<String, Integer> symbolTable = new HashMap<String, Integer>();
 	Map<String, Integer> sortedSymbolTable;
 	ArrayList<String> reservedWords = new ArrayList<String>();
 	
+	//The three tables that will be populated via the xmlToJava class
 	final int [][] state_table = new int[145][33];
 	final int [][] action_table = new int[145][33];
 	final int [][] look_up_table = new int[145][33];
 	
+	//When the new BigScanner object is created, the tables are now populated
+	//from the original XML file
 	public BigScanner() throws IOException {
 		xmlToJava.createTables(state_table, action_table, look_up_table);
 	}
 	
+	//Takes in the file of the code to run the parser on, where to output the
+	//original source code, and the output of the scanner
 	void read_characters(String fileName, TextArea source, TextArea output) throws IOException {
 		char current_char = 0; 
 		int c; 
@@ -47,6 +55,7 @@ public class BigScanner {
 		InputStream inStream = null; 
 		InputStreamReader reader = null;
 	    BufferedReader bufferedReader = null;
+	    //Creata an ArrayList of Characters to read the whole file
 	    ArrayList<Character> list = new ArrayList<Character>();
 	    symbolTable.clear();
 	    String src = "";
@@ -56,6 +65,8 @@ public class BigScanner {
 	        reader = new InputStreamReader(inStream);
 	        bufferedReader = new BufferedReader(reader);
 	        
+	        //Print the source file as we get it and add the characters to 
+	        //the ArrayList of Characters
 	        while ((c = bufferedReader.read()) != -1){
 	        	src += (char) c;
 	        	list.add((char) c);
@@ -63,6 +74,7 @@ public class BigScanner {
 	        
 	        source.append(src);
 	        source.setCaretPosition(0);
+	        //Add two new lines in order to accept the last token of a file
 	        list.add('\n');
 	        list.add('\n');
 	        
@@ -75,7 +87,8 @@ public class BigScanner {
 		}
 	        
         int i = 0;
-		while (i < list.size()) {
+		//while loop that runs until we get to the end of the character ArrayList
+        while (i < list.size()) {
 			if ((!buffered) || (current_char == ' ' || (current_char == '\n'))) {
 				current_char = (char) list.get(i);
 				i++;
@@ -83,7 +96,7 @@ public class BigScanner {
 			
 			//System.out.println("current char=" + current_char);
 
-			/*
+			/* The Read Values to lead into the state tables
 			 * L=0 D=1 _=2 `=3 <=4 >=5 [=6 ]=7 {=8 }=9 @=10 
 			 * &=11 #=12 !=13 ~=14 '=15 "=16 $=17 := 18 ;=19 .= 20 ,=21
 			 * +=22 -=23 /=24 *=25 ==26 ^=27 (=28 )=29 \=30 EOL=31 Other=32
@@ -132,6 +145,8 @@ public class BigScanner {
 			
 			//System.out.println("current state=" + state + " current_char=" + current_char + " token status=" + token_under_construction);
 			
+			//Checks that we have a valid character and of next_state and action,
+			//continuing to build the token
 			if ((next_state(state, current_read) != -1) && (action(state, current_read) == 1)) {
 				buffered = false;
 				token_under_construction = token_under_construction + current_char;
@@ -141,16 +156,26 @@ public class BigScanner {
 				//System.out.println("The lookup value is = " + look_up(state, current_read));
 				//System.out.println("We have a buffered character = " + "\"" + current_char + "\"");
 				
+				//If we arrive here, the token has been completed and ready to
+				//be accepted and printed out
 				buffered = true;
 				String token = "";
 				switch (look_up(state, current_read)) {
 					case 1:
+						//If we get a token that is in the reservedWords imported,
+						//we do nothing but print that we found the word
 						if(reservedWords.contains(token_under_construction.toLowerCase())) {
 							token = "=> identifier and reserved word";
 						} else if(symbolTable.containsKey(token_under_construction)) {
+							//If the token is created by the user and already was
+							//found, we increment the count of the amount of times
+							//the given token was found
 							symbolTable.put(token_under_construction, symbolTable.get(token_under_construction) + 1);
 							token = "=> identifier EXISTS in table (" + symbolTable.get(token_under_construction) + ")";
 						} else {
+							//If the token is created by the use and has not been
+							//entered into the symbolTable, we add it to the table
+							//and set the count to 1
 							symbolTable.put(token_under_construction, 1);
 							token = "=> identifier placed into table";
 						}
@@ -193,6 +218,8 @@ public class BigScanner {
 		//System.out.println("DONE SCANNING");
 	}
 	
+	//The next three are helper functions that check for the next state of
+	//a given table
 	int look_up(int new_state, int new_char) {
 		return look_up_table[new_state][new_char];
 	}
@@ -205,6 +232,9 @@ public class BigScanner {
 		return action_table[new_state][new_char];
 	}
 	
+	//This just fills out the reservedWord textArea for display, as well as
+	//adding these words to an ArrayList of strings for the scanner to
+	//compare tokens to
 	void setReserved(String fileName, TextArea reservedArea) throws IOException {
 		reservedWords.clear();
 		Scanner scanner = new Scanner(new File(fileName));
@@ -231,6 +261,8 @@ public class BigScanner {
 		reservedArea.setCaretPosition(0);
 	}
 	
+	//A helper function that displays the tables that were created via
+	//the XML sheet originally provided
 	void displayTables(TextArea state, TextArea action, TextArea look_up) {	
 		state.append(String.format("%c%7c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8c%8s%8s",
 				' ', 'L', 'D', '_', '`', '<', '>', '[', ']', '{', '}', '@', '&', '#', '!', '~', '\'', '"', '$', ':', ';', '.', ',', '+',
