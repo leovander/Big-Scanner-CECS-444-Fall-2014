@@ -171,7 +171,7 @@ public class BigScanner {
 				state = 0;
 				token_under_construction = "";
 			} else if(action(state, current_read) == 0) {
-				//System.out.println("ERROR WITH CHARACTER: " + Character.toUpperCase(current_char));
+				//output.append(String.format("%-40s  %-40s", current_char, "=> error with character"));
 				token_under_construction = "";
 				buffered = false;
 				state = 0;

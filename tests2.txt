@@ -1,0 +1,44 @@
+//this should test just 
+//about everything 
+` 
+< > 
+[ ] { } @ & # ! ~ ' $ 
+: ; . , 
++ - / * = ^ ( ) -- ++ 
++--+>=<=!=<> //what happens here?  
+== := << >> /= !! 
+a abbbaba ab333aa 
+a_b a____b ab_13_a 
+3 
+  33    5 	 	
+  333 
+  1551544564 
+3,333 52,456,888 156,112,111,352 
+(13345)(-555423) 
+(1,444,533) (-6,819) 
+$.05 $5.00 $666666.66 $62,255,555.00 
+#import<test.h> 
+#import<thing> 
+#import"differentTest." 
+#import"another.rrr" 
+import\java.scanner.project; 
+.0 .05665.45665.123,5 
+5. 
+56.66 
+123546.111111 
+12,123.111,2 
+(.0) (.05665)(-.45665)(.123,5) 
+(5.) 
+(56.66) 
+(123546.111111) 
+(12,123.111,2) 
+1.1156897^+1236.82^-3 //should pull apart 
+[C:dumbfile] 
+[D:diffFile.] 
+[E:lastFile.k232] 
+"tic	-j  qnwvnq-nv93018nq-3@((#_$(-" 
+/* this comment? */ 
+{*how bout 	this		one*} 
+//and one more of these 
+
+ 

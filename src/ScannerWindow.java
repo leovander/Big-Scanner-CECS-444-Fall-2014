@@ -30,11 +30,7 @@ public class ScannerWindow {
 		ScannerWindow window = new ScannerWindow(scanner);
 		window.frmBigScanner.setVisible(true);
 	}
-	
-	/**
-	 * @throws IOException 
-	 * @wbp.parser.entryPoint
-	 */
+
 	public ScannerWindow(BigScanner scanner) throws IOException {
 		frmBigScanner = new JFrame();
 		frmBigScanner.setTitle("Big Scanner");
@@ -97,9 +93,7 @@ public class ScannerWindow {
 			        Iterator<Entry<String, Integer>> iterator2 = set2.iterator();
 			        while(iterator2.hasNext()) {
 			             Map.Entry me2 = (Map.Entry)iterator2.next();
-			             System.out.print(me2.getKey() + ": ");
-			             System.out.println(me2.getValue());
-			             model.addRow(new Object[]{me2.getKey(), me2.getValue()});
+			             model.addRow(new Object[]{me2.getValue(), me2.getKey()});
 			        }
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -112,6 +106,10 @@ public class ScannerWindow {
 		JLabel lblScannerOutput = new JLabel("Scanner Output");
 		lblScannerOutput.setBounds(484, 36, 97, 16);
 		panel.add(lblScannerOutput);
+		
+		JLabel lblSymbolTable = new JLabel("Symbol Table");
+		lblSymbolTable.setBounds(8, 281, 84, 16);
+		panel.add(lblSymbolTable);
 		
 		tabbedPane.setEnabledAt(0, true);
 		
