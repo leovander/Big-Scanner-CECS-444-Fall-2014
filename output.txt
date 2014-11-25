@@ -1,0 +1,131 @@
+using                                     => identifier and reserved word         
+namespace                                 => identifier and reserved word         
+std                                       => identifier placed into table         
+;                                         => simple op ;                          
+#include"math.h"                          => library quote                        
+#include"string.cpp"                      => library quote                        
+#include<iostream.h>                      => library angle                        
+#include<vector>                          => library angle                        
+import\java.text.string;                  => library                              
+// this is not allowed import java.*      => single comment                       
+//include library functions               => single comment                       
+program                                   => identifier and reserved word         
+test2                                     => identifier placed into table         
+;                                         => simple op ;                          
+var                                       => identifier and reserved word         
+doe                                       => identifier placed into table         
+,                                         => simple op ,                          
+bread                                     => identifier placed into table         
+:                                         => simple op :                          
+money                                     => identifier placed into table         
+;                                         => simple op ;                          
+/*currency*/                              => block comment                        
+a                                         => identifier placed into table         
+,                                         => simple op ,                          
+b                                         => identifier placed into table         
+,                                         => simple op ,                          
+ab                                        => identifier placed into table         
+:                                         => simple op :                          
+string                                    => identifier and reserved word         
+;                                         => simple op ;                          
+//string variables                        => single comment                       
+c                                         => identifier placed into table         
+,                                         => simple op ,                          
+d                                         => identifier placed into table         
+,                                         => simple op ,                          
+cd                                        => identifier placed into table         
+:                                         => simple op :                          
+int                                       => identifier and reserved word         
+;                                         => simple op ;                          
+/*integer variables*/                     => block comment                        
+e                                         => identifier placed into table         
+,                                         => simple op ,                          
+gee                                       => identifier placed into table         
+:                                         => simple op :                          
+float                                     => identifier and reserved word         
+;                                         => simple op ;                          
+//float type                              => single comment                       
+begin                                     => identifier and reserved word         
+/*body*/                                  => block comment                        
+a                                         => identifier EXISTS in table (2)       
+:=                                        => compund op :=                        
+"bad"                                     => string literal                       
+;                                         => simple op ;                          
+b                                         => identifier EXISTS in table (2)       
+:=                                        => compund op :=                        
+" cat"                                    => string literal                       
+;                                         => simple op ;                          
+ab                                        => identifier EXISTS in table (2)       
+:=                                        => compund op :=                        
+a                                         => identifier EXISTS in table (3)       
++                                         => simple op +                          
+b                                         => identifier EXISTS in table (3)       
+;                                         => simple op ;                          
+//merge strings                           => single comment                       
+c                                         => identifier EXISTS in table (2)       
+:=                                        => compund op :=                        
+12345                                     => valid integer                        
+;                                         => simple op ;                          
+d                                         => identifier EXISTS in table (2)       
+:=                                        => compund op :=                        
+12,345,123                                => int comma                            
+;                                         => simple op ;                          
+e                                         => identifier EXISTS in table (2)       
+:=                                        => compund op :=                        
+(-12,345,123)                             => signed int or signed int comma       
+;                                         => simple op ;                          
+bread                                     => identifier EXISTS in table (2)       
+=                                         => simple op =                          
+$12,123.05                                => currency                             
+;                                         => simple op ;                          
+cd                                        => identifier EXISTS in table (2)       
+:=                                        => compund op :=                        
+c                                         => identifier EXISTS in table (3)       
++                                         => simple op +                          
+d                                         => identifier EXISTS in table (3)       
+;                                         => simple op ;                          
+//add unsigned integers                   => single comment                       
+e                                         => identifier EXISTS in table (3)       
+:=                                        => compund op :=                        
+444,444.13                                => real comma                           
+;                                         => simple op ;                          
+f                                         => identifier placed into table         
+:=                                        => compund op :=                        
+(-444,444.13)                             => signed real or signed comma          
+;                                         => simple op ;                          
+gee                                       => identifier EXISTS in table (2)       
+:=                                        => compund op :=                        
+c                                         => identifier EXISTS in table (4)       
++                                         => simple op +                          
+e                                         => identifier EXISTS in table (4)       
++                                         => simple op +                          
+3.145^+002                                => valid scientific                     
+;                                         => simple op ;                          
+//add singed integers and reals           => single comment                       
+read                                      => identifier and reserved word         
+[A:file.txt]                              => device                               
+;                                         => simple op ;                          
+write                                     => identifier and reserved word         
+[A:test]                                  => device                               
+;                                         => simple op ;                          
+for                                       => identifier and reserved word         
+(                                         => simple op (                          
+a                                         => identifier EXISTS in table (4)       
+:=                                        => compund op :=                        
+1                                         => valid integer                        
+;                                         => simple op ;                          
+a                                         => identifier EXISTS in table (5)       
+<=                                        => compund op <=                        
+10                                        => valid integer                        
+;                                         => simple op ;                          
+++                                        => compund op ++                        
+a                                         => identifier EXISTS in table (6)       
+)                                         => simple op )                          
+readln                                    => identifier placed into table         
+(                                         => simple op (                          
+"almost finished!"                        => string literal                       
+)                                         => simple op )                          
+;                                         => simple op ;                          
+end                                       => identifier and reserved word         
+.                                         => simple op .                          
+//end program                             => single comment                       
