@@ -20,7 +20,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 public class BigScanner {
@@ -28,6 +30,7 @@ public class BigScanner {
 	int current_read = 0; 
 	int state = 0;
 	String token_under_construction = "";
+	String outputToFile = "";
 	//Create the symbol table to store user created identifiers and a list
 	//of reserved words to match against
 	Map<String, Integer> symbolTable = new HashMap<String, Integer>();
@@ -203,6 +206,8 @@ public class BigScanner {
 				
 				output.append(String.format("%-40s  %-40s", token_under_construction.trim(), token));
 				output.append("\n");
+				outputToFile += String.format("%-40s  %-40s", token_under_construction.trim(), token);
+				outputToFile += "\n";
 				state = 0;
 				token_under_construction = "";
 			} else if(action(state, current_read) == 0) {
@@ -215,6 +220,21 @@ public class BigScanner {
 		sortedSymbolTable = new TreeMap<String, Integer>(symbolTable);
 		
 		output.setCaretPosition(0);
+		
+		File file = new File("output.txt");
+		 
+		// if file doesnt exists, then create it
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(outputToFile);
+		bw.close();
+
+		System.out.println("Done");
+		
 		//System.out.println("DONE SCANNING");
 	}
 	

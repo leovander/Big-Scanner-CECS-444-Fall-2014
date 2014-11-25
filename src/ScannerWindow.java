@@ -94,7 +94,7 @@ public class ScannerWindow {
         table.getTableHeader().setReorderingAllowed(false);
         table.getTableHeader().setResizingAllowed(false);
 		table.setPreferredScrollableViewportSize(new Dimension(464, 217));
-		table.setEnabled(false);
+		//table.setEnabled(false);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(8, 305, 464, 217);
